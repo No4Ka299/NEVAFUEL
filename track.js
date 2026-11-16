@@ -25,36 +25,36 @@
   }
   function url(code) { return base() + "/messages/" + code; }
   function fail(r) {
-    var e = new Error(r.status === 404 ? "NOT_FOUND" : r.status === 429 ? "RATE" : "HTTP " + r.status);
-    e.status = r.status; return e;
+    // читаем тело ответа Discord, чтобы видеть реальную причину ошибки
+    return r.text().then(function (txt) {
+      var d = ""; try { var j = JSON.parse(txt); d = j.message || ""; if (j.errors) d += " " + JSON.stringify(j.errors).slice(0, 220); } catch (_) {}
+      var e = new Error(r.status === 404 ? "NOT_FOUND" : r.status === 429 ? "RATE" : "HTTP " + r.status + (d ? ": " + d : ""));
+      e.status = r.status; return e;
+    });
   }
   function get(code) {
     if (!base()) return Promise.reject(new Error("NO_WEBHOOK"));
     if (!valid(code)) return Promise.reject(new Error("BAD_CODE"));
     return fetch(url(code), { cache: "no-store" }).then(function (r) {
-      if (!r.ok) throw fail(r);
+      if (!r.ok) return fail(r).then(function (e) { throw e; });
       return r.json();
     }).then(function (msg) { return { msg: msg, idx: idxOf(msg.embeds), embeds: msg.embeds || [] }; });
   }
   function clean(e) {
+    // оставляем только текстовые поля: картинки карты лежат во вложениях сообщения и остаются как есть
     var o = {};
     ["title", "description", "color"].forEach(function (k) { if (e[k] !== undefined) o[k] = e[k]; });
-    if (e.fields) o.fields = e.fields.map(function (f) { return { name: f.name, value: f.value, inline: !!f.inline }; });
+    if (e.fields) o.fields = e.fields.map(function (f) { return { name: String(f.name).slice(0, 256), value: String(f.value).slice(0, 1024), inline: !!f.inline }; });
     if (e.footer && e.footer.text) o.footer = { text: e.footer.text };
-    if (e.image && e.image.url) {
-      var fn = decodeURIComponent(String(e.image.url).split("?")[0].split("/").pop());
-      o.image = { url: e.image.url.indexOf("attachment://") === 0 ? e.image.url : "attachment://" + fn };
-    }
     return o;
   }
   function patch(code, mutate) {
     return get(code).then(function (st) {
-      var embeds = st.embeds.map(clean);
+      var embeds = st.embeds.filter(function (e) { return e.title || e.description || (e.fields && e.fields.length); }).map(clean);
       mutate(embeds);
-      var body = { embeds: embeds, allowed_mentions: { parse: [] },
-        attachments: (st.msg.attachments || []).map(function (a) { return { id: a.id }; }) };
+      var body = { embeds: embeds, allowed_mentions: { parse: [] } };
       return fetch(url(code), { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
-        .then(function (r) { if (!r.ok) throw fail(r); return r.json(); });
+        .then(function (r) { if (!r.ok) return fail(r).then(function (e) { throw e; }); return r.json(); });
     });
   }
   function upsert(embed, name, value, inline, first) {
