@@ -45,7 +45,7 @@
       <div class="blk">
         <h3><b>01</b> Ваши данные</h3>
         <div class="grid2">
-          <div><label class="f" for="nick">Игровой ID персонажа</label><input type="text" id="nick" placeholder="Например: 44232"></div>
+          <div><label class="f" for="nick">Игровой ID</label><input type="text" id="nick" placeholder="Например: 12345" maxlength="30"></div>
           <div><label class="f" for="car">Марка автомобиля</label><input type="text" id="car" placeholder="Например: BMW M5 F90"></div>
         </div>
       </div>
@@ -255,7 +255,7 @@ $("#form").addEventListener("submit", e => {
   e.preventDefault();
   const nick = $("#nick").value.trim(), car = $("#car").value.trim(), c = calc(), err = $("#err");
   err.textContent = "";
-  if (!nick) return err.textContent = "Укажите игровой ник.";
+  if (!nick) return err.textContent = "Укажите игровой ID.";
   if (!car)  return err.textContent = "Укажите марку автомобиля.";
   if (!city) return err.textContent = "Выберите город.";
   if (!point) return err.textContent = "Поставьте точку на карте — нажмите туда, где вы находитесь.";
@@ -270,7 +270,7 @@ $("#form").addEventListener("submit", e => {
   $("#receipt").innerHTML = `
     <div class="r-head"><h3>NEVA <b>FUEL</b></h3><small>Доставка топлива · Region RP</small><div class="r-id">ЗАКАЗ № ${id}</div><small>${now}</small></div>
     <div class="r-sec"><div class="r-title">КЛИЕНТ</div>
-      <div class="rr"><span>Ник</span><span>${esc(nick)}</span></div>
+      <div class="rr"><span>ID</span><span>${esc(nick)}</span></div>
       <div class="rr"><span>Авто</span><span>${esc(car)}</span></div></div>
     <div class="r-sec"><div class="r-title">МЕСТОНАХОЖДЕНИЕ</div>
       <div class="rr"><span>Город</span><span>${cityName}</span></div>
@@ -284,7 +284,7 @@ $("#form").addEventListener("submit", e => {
     <div class="r-status" id="rStatus"></div>
     <div class="r-note"><b>Сделайте скриншот этого чека</b> и отправьте нам: ${esc(CONFIG.contact)}</div>`;
 
-  lastText = [`NEVA FUEL — заказ ${id}`, now, `Ник: ${nick}`, `Авто: ${car}`, `Город: ${cityName}`,
+  lastText = [`NEVA FUEL — заказ ${id}`, now, `ID: ${nick}`, `Авто: ${car}`, `Город: ${cityName}`,
     `Метка на карте: X ${px} / Y ${py}`,
     ...c.lines.map(l => `${l.name} × ${l.q} (${l.liters} л) — ${fmt(l.sum)}`),
     `Доставка (${c.del.label}) — ${fmt(c.del.price)}`, `ИТОГО: ${fmt(c.total)}`].join("\n");
@@ -317,7 +317,7 @@ async function sendToDiscord(o){
         color: 0xFF7A1A,
         description: `**К оплате: ${fmt(o.c.total)}**`,
         fields: [
-          { name: "Ник",     value: cut(o.nick, 200) || "—", inline: true },
+          { name: "ID",      value: cut(o.nick, 200) || "—", inline: true },
           { name: "Авто",    value: cut(o.car, 200) || "—",  inline: true },
           { name: "Город",   value: o.cityName, inline: true },
           { name: "Позиции", value: cut(items, 1000) },
@@ -338,7 +338,8 @@ async function sendToDiscord(o){
     if (!r.ok) throw new Error("HTTP " + r.status);
     st.className = "r-status ok"; st.textContent = "✓ Заказ отправлен нам в Discord. Скриншот чека тоже пришлите.";
   } catch (e) {
-    st.className = "r-status bad"; st.textContent = "Не удалось отправить автоматически — просто пришлите скриншот чека вручную.";
+    console.error("Discord webhook:", e);
+    st.className = "r-status bad"; st.textContent = "Не удалось отправить автоматически (" + (e && e.message ? e.message : "ошибка сети") + ") — просто пришлите скриншот чека вручную.";
   } finally { sending = false; btn.disabled = false; }
 }
 

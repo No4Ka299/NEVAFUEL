@@ -42,7 +42,7 @@
     -webkit-mask-composite:source-in;
     mask-image:linear-gradient(to right,transparent,#000 7%,#000 93%,transparent),linear-gradient(#000 78%,transparent);
     mask-composite:intersect}
-  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;margin-top:-28px;position:relative}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;margin-top:30px;position:relative}
   .chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:26px 0 0;position:relative}
   .chip{font-size:13px;font-weight:600;color:var(--muted);border:1px solid var(--line);background:rgba(20,22,26,.7);padding:7px 14px;border-radius:99px;display:flex;align-items:center;gap:8px}
   .chip i{width:7px;height:7px;border-radius:50%;background:var(--o1);box-shadow:0 0 8px var(--o1)}
@@ -187,7 +187,7 @@
     .tag{min-width:0;padding:6px 16px}
     .extra{gap:12px}.extra .p-ico{display:grid}.extra .p-ico svg{width:52px;height:52px}
     .na{margin-left:0}
-    .hero-cta{margin-top:-10px}
+    .hero-cta{margin-top:22px}
   }
 
 /* --- многостраничность --- */
