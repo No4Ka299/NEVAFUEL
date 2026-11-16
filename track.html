@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Статус заказа — Neva Fuel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,700;0,800;1,700;1,800;1,900&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="track">
+<!-- иконки -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-drop" viewBox="0 0 24 30"><path d="M12 1c4.6 6 9 10.4 9 16a9 9 0 0 1-18 0C3 11.4 7.4 7 12 1z"/><path d="M8 18a4 4 0 0 0 3.2 3.9" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 1.5a7.5 7.5 0 0 0-7.5 7.5c0 5.6 7.5 13.5 7.5 13.5S19.5 14.600 19.500 9A7.500 7.500 0 0 0 12 1.500zm0 10.200a2.700 2.700 0 1 1 0-5.400 2.700 2.700 0 0 1 0 5.400z"/></symbol>
+    <symbol id="i-road" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M8.500 2h7L21.500 22h-19L8.500 2zM11.200 4v3.800h1.600V4zM10.900 10.800v3.800h2.200v-3.800zM10.500 17.600V21h3v-3.400z"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 64 48"><path d="M16 6h30v26H16zM46 14h9l8 9v9H46z" opacity=".95"/><circle cx="26" cy="36" r="6.500"/><circle cx="53" cy="36" r="6.500"/><path d="M1 12h11M4 19h9M1 26h11" stroke="#ff8a1f" stroke-width="3.500" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-pump" viewBox="0 0 64 64"><path d="M8 6h30a3 3 0 0 1 3 3v47H5V9a3 3 0 0 1 3-3zm5 7v14h23V13z"/><path d="M41 22h5l9 8v18a4 4 0 0 1-8 0V36h-6" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><rect x="2" y="56" width="42" height="5" rx="2"/></symbol>
+    <symbol id="i-tools" viewBox="0 0 64 64"><path d="M14 52 38 28" stroke="currentColor" stroke-width="8" stroke-linecap="round" fill="none"/><path d="M42 8a14 14 0 1 0 14 14 14 14 0 0 0-1.500-6.300l-7 7-6-1-1-6 7-7A14 14 0 0 0 42 8z"/><path d="M50 56 26 32" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M12 8l8 3 4 8-5 3-8-4z"/></symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="Neva Fuel — на главную">
+      <svg viewBox="0 0 24 30"><defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb13b"/><stop offset="1" stop-color="#ff7a00"/></linearGradient></defs><path d="M12 1c4.6 6 9 10.4 9 16a9 9 0 0 1-18 0C3 11.4 7.4 7 12 1z" fill="url(#lg)"/></svg>
+      <b>NEVA <span>FUEL</span></b>
+    </a>
+    <button class="burger" id="burger" type="button" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav id="nav">
+      <a href="index.html" data-p="index">Главная</a>
+      <a href="prices.html" data-p="prices">Прайс</a>
+      <a href="track.html" data-p="track">Статус заказа</a>
+      <a class="cta" href="order.html" data-p="order">Заказать</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="page-top">
+  <div class="wrap legal">
+    <div class="sec-h"><h1 class="it"><span class="grad">Статус</span> <span class="org">заказа</span></h1><p>Введите код отслеживания из чека — и увидите, на каком этапе ваша заявка.</p></div>
+    <form class="panel" id="tf" autocomplete="off" novalidate>
+      <div class="tform">
+        <div><label class="f" for="code">Код отслеживания</label><input type="text" id="code" inputmode="numeric" maxlength="25" placeholder="Например: 1234567890123456789"></div>
+        <button class="btn" type="submit">Проверить</button>
+      </div>
+    </form>
+    <div id="tres"></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <img class="foot-img" src="img/foot.webp" alt="Neva Fuel — твой надёжный партнёр на дорогах Питера!">
+  <div class="foot-nav"><a href="index.html">Главная</a><a href="prices.html">Прайс</a><a href="order.html">Заказать</a><a href="track.html">Статус заказа</a><a href="privacy.html">Конфиденциальность</a></div>
+  <div class="copy">© Neva Fuel · Игровой проект на сервере Region RP. Не является официальной частью проекта Region RP, его разработчиков или администрации. Все события вымышленные.</div>
+</footer>
+
+<script src="config.js"></script>
+<script src="track.js"></script>
+<script src="site.js"></script>
+<script src="track-page.js"></script>
+</body>
+</html>
